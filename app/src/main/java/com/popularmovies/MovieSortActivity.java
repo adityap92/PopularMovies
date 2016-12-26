@@ -12,13 +12,14 @@ public class MovieSortActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_movie_sort);
 
-
-        //Picasso.with(context).load("http://i.imgur.com/DvpvklR.png").into(imageView);
+        MovieDBConnection mdbconnect = new MovieDBConnection(this);
 
 
         GridView gridview = (GridView) findViewById(R.id.movieGrid);
-        gridview.setAdapter(new MovieGridAdapter(this));
+        MovieGridAdapter gridAdapter = new MovieGridAdapter(this);
+        gridview.setAdapter(gridAdapter);
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
@@ -28,6 +29,6 @@ public class MovieSortActivity extends Activity {
             }
         });
 
-        setContentView(R.layout.activity_movie_sort);
+
     }
 }

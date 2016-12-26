@@ -1,25 +1,48 @@
 package com.popularmovies;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by aditya on 12/25/16.
+ *
+ * This class is to download the movie images and display them in the GridView.
  */
 
 public class MovieGridAdapter extends BaseAdapter {
 
     private Context thisContext;
+    private ArrayList<Movie> movies;
 
     public MovieGridAdapter(Context c){
         thisContext = c;
+        movies = new ArrayList<Movie>();
+
+        getImageUrls();
+
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return movies.size();
     }
 
     @Override
@@ -34,6 +57,83 @@ public class MovieGridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+
+
+        final ImageView imageView;
+        if (convertView == null) {
+            // if it's not recycled, initialize some attributes
+            imageView = new ImageView(thisContext);
+            imageView.setLayoutParams(new GridView.LayoutParams(300, 300));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setPadding(8, 8, 8, 8);
+        } else {
+            imageView = (ImageView) convertView;
+        }
+
+        //imageView.setImageResource(mThumbIds[position]);
+        String url = thisContext.getString(R.string.get_image)
+                +(movies.get(position).getPosterPath())
+                +thisContext.getString(R.string.api_url)
+                +thisContext.getString(R.string.MOVIE_DB_API_KEY);
+
+        // Retrieves an image specified by the URL, displays it in the UI.
+        ImageRequest request = new ImageRequest(url,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        imageView.setImageBitmap(bitmap);
+                    }
+                }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Image Retrieve Error: ",error.toString());
+                    }
+                });
+        // Access the RequestQueue through your singleton class.
+        MovieDBConnection.getInstance(thisContext).addToRequestQueue(request);
+
+
+        return imageView;
+    }
+
+    private void getImageUrls(){
+        String url =  thisContext.getString(R.string.most_popular_url)+thisContext.getString(R.string.MOVIE_DB_API_KEY);
+
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+
+                        try{
+                        JSONArray arr = response.getJSONArray("results");
+
+                        for(int i = 0; i < 20 ; i++){
+
+                            JSONObject currMovie = arr.getJSONObject(i);
+                            movies.add(new Movie(currMovie.getString("overview"),
+                                        currMovie.getString("id"),
+                                        currMovie.getString("poster_path"),
+                                        currMovie.getString("title")));
+
+                        }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO Auto-generated method stub
+                        Log.d("asdf",error.toString());
+                    }
+                });
+
+        // Access the RequestQueue through your singleton class.
+        MovieDBConnection.getInstance(thisContext).addToRequestQueue(jsObjRequest);
     }
 }

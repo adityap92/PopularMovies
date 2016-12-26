@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="android:Theme.Light">
         <!-- Customize your theme here. -->
     </style>
-
+    <color name="custom_theme_color">#80CBC4</color>
     <style name="MyTheme" parent="android:Theme.Material">
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
@@ -15,6 +15,10 @@
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="android:colorAccent" type="color">#1DE9B6</item>
         <item name="android:colorBackground" type="color">#80CBC4</item>
+
+
+        <item name="android:windowBackground">@color/custom_theme_color</item>
+
     </style>
 
 </resources>
