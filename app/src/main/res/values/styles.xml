@@ -16,7 +16,6 @@
         <item name="android:colorAccent" type="color">#1DE9B6</item>
         <item name="android:colorBackground" type="color">#80CBC4</item>
 
-
         <item name="android:windowBackground">@color/custom_theme_color</item>
 
     </style>

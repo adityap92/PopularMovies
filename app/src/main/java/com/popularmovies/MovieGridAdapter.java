@@ -31,10 +31,12 @@ public class MovieGridAdapter extends BaseAdapter {
 
     private Context thisContext;
     private ArrayList<Movie> movies;
+    private String currFilter;
 
     public MovieGridAdapter(Context c){
         thisContext = c;
         movies = new ArrayList<Movie>();
+        currFilter = thisContext.getResources().getString(R.string.most_popular_url);
 
         getImageUrls();
 
@@ -63,7 +65,7 @@ public class MovieGridAdapter extends BaseAdapter {
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(thisContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(300, 300));
+            imageView.setLayoutParams(new GridView.LayoutParams(500, 500));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(8, 8, 8, 8);
         } else {
@@ -96,8 +98,19 @@ public class MovieGridAdapter extends BaseAdapter {
         return imageView;
     }
 
+    public void setFilter(String newFilter){
+        currFilter = newFilter;
+        getImageUrls();
+    }
+
     private void getImageUrls(){
-        String url =  thisContext.getString(R.string.most_popular_url)+thisContext.getString(R.string.MOVIE_DB_API_KEY);
+        String url="";
+        if(currFilter.equals(thisContext.getResources().getString(R.string.most_popular_url))){
+            url =  thisContext.getString(R.string.most_popular_url)+thisContext.getString(R.string.MOVIE_DB_API_KEY);
+        }else if(currFilter.equals(thisContext.getResources().getString(R.string.top_rated_url))) {
+            url =  thisContext.getString(R.string.top_rated_url)+thisContext.getString(R.string.MOVIE_DB_API_KEY);
+        }
+
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -108,6 +121,7 @@ public class MovieGridAdapter extends BaseAdapter {
 
                         try{
                         JSONArray arr = response.getJSONArray("results");
+                        movies.clear();
 
                         for(int i = 0; i < 20 ; i++){
 
@@ -122,6 +136,7 @@ public class MovieGridAdapter extends BaseAdapter {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        notifyDataSetChanged();
 
                     }
                 }, new Response.ErrorListener() {
