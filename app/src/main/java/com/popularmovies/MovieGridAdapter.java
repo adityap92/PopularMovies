@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.android.volley.Request;
@@ -65,9 +64,8 @@ public class MovieGridAdapter extends BaseAdapter {
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(thisContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(500, 500));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8, 8, 8, 8);
+
         } else {
             imageView = (ImageView) convertView;
         }
@@ -103,6 +101,10 @@ public class MovieGridAdapter extends BaseAdapter {
         getImageUrls();
     }
 
+    public ArrayList<Movie> getMovies(){
+        return movies;
+    }
+
     private void getImageUrls(){
         String url="";
         if(currFilter.equals(thisContext.getResources().getString(R.string.most_popular_url))){
@@ -126,7 +128,7 @@ public class MovieGridAdapter extends BaseAdapter {
                         for(int i = 0; i < 20 ; i++){
 
                             JSONObject currMovie = arr.getJSONObject(i);
-                            movies.add(new Movie(currMovie.getString("overview"),
+                            movies.add(new Movie(currMovie.getString("release_date"),currMovie.getString("overview"),
                                         currMovie.getString("id"),
                                         currMovie.getString("poster_path"),
                                         currMovie.getString("title")));

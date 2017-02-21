@@ -1,29 +1,29 @@
 package com.popularmovies;
 
-import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
-public class MovieSortActivity extends Activity {
+public class MovieSortActivity extends AppCompatActivity {
     private Context mainContext;
     private MovieGridAdapter gridAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_sort);
-
         mainContext=getApplicationContext();
-
-        MovieDBConnection mdbconnect = new MovieDBConnection(this);
-
 
         GridView gridview = (GridView) findViewById(R.id.movieGrid);
         gridAdapter = new MovieGridAdapter(this);
@@ -32,12 +32,19 @@ public class MovieSortActivity extends Activity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                Toast.makeText(MovieSortActivity.this, "" + position,
-                        Toast.LENGTH_SHORT).show();
+                //open MovieDetail Screen
+                //getLayoutInflater().inflate(R.layout.activity_movie_detail,parent,false);
+
+                Intent newIntent = new Intent(mainContext, MovieDetailActivity.class);
+                startActivity(newIntent);
+                getLayoutInflater().inflate(R.layout.activity_movie_detail,parent,false);
+
+
             }
         });
 
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -45,16 +52,12 @@ public class MovieSortActivity extends Activity {
 
         if(id==R.id.filter_popular){
             gridAdapter.setFilter(mainContext.getResources().getString(R.string.most_popular_url));
-            //gridAdapter.notifyDataSetChanged();
             return true;
         }else
         if(id==R.id.filter_rated){
             gridAdapter.setFilter(mainContext.getResources().getString(R.string.top_rated_url));
-            //gridAdapter.notifyDataSetChanged();
             return true;
         }
-
-
 
         return super.onOptionsItemSelected(item);
     }
@@ -68,5 +71,19 @@ public class MovieSortActivity extends Activity {
 
 
         return true;
+    }
+
+    public static class MovieSortFragment extends Fragment {
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+            View view = inflater.inflate(R.layout.fragment_movie_sort, container, false);
+
+
+
+
+            return view;
+        }
     }
 }
