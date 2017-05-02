@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class MovieGridAdapter extends BaseAdapter {
 
     private Context thisContext;
-    private ArrayList<Movie> movies;
+    public static ArrayList<Movie> movies;
     private String currFilter;
 
     public MovieGridAdapter(Context c){
@@ -64,7 +64,7 @@ public class MovieGridAdapter extends BaseAdapter {
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(thisContext);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
         } else {
             imageView = (ImageView) convertView;
@@ -82,6 +82,7 @@ public class MovieGridAdapter extends BaseAdapter {
                     @Override
                     public void onResponse(Bitmap bitmap) {
                         imageView.setImageBitmap(bitmap);
+
                     }
                 }, 0, 0, null,
                 new Response.ErrorListener() {
@@ -92,7 +93,7 @@ public class MovieGridAdapter extends BaseAdapter {
         // Access the RequestQueue through your singleton class.
         MovieDBConnection.getInstance(thisContext).addToRequestQueue(request);
 
-
+        movies.get(position).setImageBitmap(imageView);
         return imageView;
     }
 
@@ -131,7 +132,8 @@ public class MovieGridAdapter extends BaseAdapter {
                             movies.add(new Movie(currMovie.getString("release_date"),currMovie.getString("overview"),
                                         currMovie.getString("id"),
                                         currMovie.getString("poster_path"),
-                                        currMovie.getString("title")));
+                                        currMovie.getString("title"),
+                                        currMovie.getString("vote_average")));
 
                         }
 

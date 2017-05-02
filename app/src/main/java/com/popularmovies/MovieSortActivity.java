@@ -32,14 +32,13 @@ public class MovieSortActivity extends AppCompatActivity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
+
+
                 //open MovieDetail Screen
-                //getLayoutInflater().inflate(R.layout.activity_movie_detail,parent,false);
-
                 Intent newIntent = new Intent(mainContext, MovieDetailActivity.class);
+                newIntent.putExtra("position", position);
+
                 startActivity(newIntent);
-                getLayoutInflater().inflate(R.layout.activity_movie_detail,parent,false);
-
-
             }
         });
 
@@ -66,9 +65,7 @@ public class MovieSortActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
-
         inflater.inflate(R.menu.grid_setting, menu);
-
 
         return true;
     }
@@ -79,9 +76,6 @@ public class MovieSortActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
             View view = inflater.inflate(R.layout.fragment_movie_sort, container, false);
-
-
-
 
             return view;
         }

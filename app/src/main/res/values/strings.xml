@@ -8,5 +8,6 @@
     <string name="get_image">https://image.tmdb.org/t/p/w780</string>
     <string name="api_url">\?api_key=</string>
     <string name="filter_type">Most Popular</string>
+    <string name="rating">/10</string>
 
 </resources>
