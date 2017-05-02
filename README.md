@@ -8,5 +8,4 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-In order to run the app an API key from themoviedb.org API is needed. Please add the following line to your strings.xml file in order to run the app.
-<string name="MOVIE_DB_API_KEY"></string>
+In order to run the app an API key from themoviedb.org API is needed. Add a string resourced named MOVIE_DB_API_KEY with your API key to run this app.
