@@ -18,6 +18,12 @@
         <activity android:name=".MovieDetailActivity">
 
         </activity>
+        
+        <provider
+            android:authorities="com.popularmovies"
+            android:name="com.popularmovies.data.FavoritesContentProvider"
+            android:exported="false"/>
+        
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>

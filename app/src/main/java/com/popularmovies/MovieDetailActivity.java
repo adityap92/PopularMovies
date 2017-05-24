@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +31,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         TextView releaseDate = (TextView) findViewById(R.id.tvDetailYear);
         TextView synopsis = (TextView) findViewById(R.id.tvDetailDescription);
         TextView rating = (TextView) findViewById(R.id.tvDetailRating);
+        Button favorite = (Button) findViewById(R.id.bFavorite);
 
         //Populate MovieDetail references
         image.setImageDrawable(MovieGridAdapter.movies.get(pos).getImageBitmap().getDrawable());
@@ -36,6 +39,14 @@ public class MovieDetailActivity extends AppCompatActivity {
         releaseDate.setText((MovieGridAdapter.movies.get(pos).getReleaseDate()).substring(0,4));
         synopsis.setText((MovieGridAdapter.movies.get(pos).getOverview()));
         rating.setText(MovieGridAdapter.movies.get(pos).getRating());
+
+        // Add or Remove favorites
+        favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 
