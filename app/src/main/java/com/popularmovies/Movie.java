@@ -34,6 +34,10 @@ public class Movie {
         this.rating = rating;
     }
 
+    public String getMovieID(){
+        return this.id;
+    }
+
     public String getPosterPath(){
         return this.posterPath;
     }

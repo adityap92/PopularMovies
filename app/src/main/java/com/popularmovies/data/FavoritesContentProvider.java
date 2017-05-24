@@ -28,7 +28,6 @@ public class FavoritesContentProvider extends ContentProvider{
 
         //add matches
         uriMatcher.addURI(FavoritesContract.AUTHORITY, FavoritesContract.PATH_FAVORITES, FAVORITES);
-
         uriMatcher.addURI(FavoritesContract.AUTHORITY, FavoritesContract.PATH_FAVORITES +"/#", FAVORITES);
 
         return uriMatcher;
