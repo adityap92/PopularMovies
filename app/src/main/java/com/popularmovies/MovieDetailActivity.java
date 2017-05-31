@@ -24,6 +24,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  * Created by aditya on 12/26/16.
  */
@@ -33,6 +35,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private Context thisContext;
     private int pos;
+    private ArrayList<Trailer> trailers;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +50,10 @@ public class MovieDetailActivity extends AppCompatActivity {
         final String movieId = MovieGridAdapter.movies.get(pos).getMovieID();
         final String movieName = MovieGridAdapter.movies.get(pos).getTitle();
 
+        //pull reviews and trailers
+        trailers = new ArrayList<Trailer>();
         getReviews();
+
 
         //create UI objects
         ImageView image = (ImageView) findViewById(R.id.detailPoster);
@@ -99,7 +105,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void getReviews(){
-
+        //create '/movie/{id}/reviews' url
         String url = thisContext.getString(R.string.moviedb_url)
                 +MovieGridAdapter.movies.get(pos).getMovieID()
                 +thisContext.getString(R.string.reviews_url)
@@ -109,12 +115,11 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try{
+                    //get Review and Display it
                     JSONArray arr = response.getJSONArray("results");
                     JSONObject review = arr.getJSONObject(0);
                     TextView tvReview = (TextView) findViewById(R.id.tvReview);
                     tvReview.setText(review.getString("content"));
-
-
 
                 }catch(JSONException e){
                     Log.e("JSON Exception", e.toString());
@@ -132,22 +137,43 @@ public class MovieDetailActivity extends AppCompatActivity {
         MovieDBConnection.getInstance(getApplicationContext()).addToRequestQueue(jsObjRequest);
     }
 
+    private void getTrailers(){
+
+        String url ="";
+
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
 
 
 
- /*   public static class MovieDetailFragment extends Fragment {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("VOLLEY ERROR",error.toString());
+            }
+        });
 
-        public MovieDetailFragment(){
-            setHasOptionsMenu(true);
+        MovieDBConnection.getInstance(getApplicationContext()).addToRequestQueue(jsObjRequest);
+    }
+
+    private class Trailer{
+
+        String title;
+        String key;
+
+        public Trailer(String title, String key){
+            this.title = title;
+            this.key = key;
         }
 
-       @Nullable
-       @Override
-       public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        public String getTrailerTitle(){
+            return title;
+        }
 
-           View view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
-
-           return view;
-       }
-   }*/
+        public String getTrailerKey(){
+            return key;
+        }
+    }
 }
