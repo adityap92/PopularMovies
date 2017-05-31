@@ -20,7 +20,7 @@
         android:background="@color/colorPrimaryDark"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"/>
+        android:paddingLeft="@dimen/activity_horizontal_margin" />
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -77,6 +77,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvDetailDescription"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:textStyle="bold"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"/>
+    <TextView
+        android:text="Reviews:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Reviews to Show :("
+        android:id="@+id/tvReview"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:textStyle="bold"
         android:paddingTop="@dimen/activity_vertical_margin"

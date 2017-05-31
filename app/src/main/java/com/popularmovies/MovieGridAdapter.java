@@ -148,7 +148,7 @@ public class MovieGridAdapter extends BaseAdapter {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO Auto-generated method stub
-                        Log.d("asdf",error.toString());
+                        Log.d("VOLLEY ERROR",error.toString());
                     }
                 });
 

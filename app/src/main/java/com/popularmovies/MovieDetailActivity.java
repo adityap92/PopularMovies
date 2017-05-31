@@ -1,10 +1,12 @@
 package com.popularmovies;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +14,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.popularmovies.data.FavoritesContract;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by aditya on 12/26/16.
@@ -21,16 +31,23 @@ import com.popularmovies.data.FavoritesContract;
 public class MovieDetailActivity extends AppCompatActivity {
 
 
+    private Context thisContext;
+    private int pos;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
 
+        thisContext=getApplicationContext();
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle extras = getIntent().getExtras();
-        int pos = extras.getInt("position");
+        pos = extras.getInt("position");
         final String movieId = MovieGridAdapter.movies.get(pos).getMovieID();
         final String movieName = MovieGridAdapter.movies.get(pos).getTitle();
+
+        getReviews();
 
         //create UI objects
         ImageView image = (ImageView) findViewById(R.id.detailPoster);
@@ -52,7 +69,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //inserting Favorite
+                //inserting favorite movie
                 ContentValues cv = new ContentValues();
 
                 cv.put(FavoritesContract.FavoritesEntry.COLUMN_MOVIE_ID, movieId);
@@ -80,6 +97,43 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void getReviews(){
+
+        String url = thisContext.getString(R.string.moviedb_url)
+                +MovieGridAdapter.movies.get(pos).getMovieID()
+                +thisContext.getString(R.string.reviews_url)
+                +thisContext.getString(R.string.MOVIE_DB_API_KEY);
+
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try{
+                    JSONArray arr = response.getJSONArray("results");
+                    JSONObject review = arr.getJSONObject(0);
+                    TextView tvReview = (TextView) findViewById(R.id.tvReview);
+                    tvReview.setText(review.getString("content"));
+
+
+
+                }catch(JSONException e){
+                    Log.e("JSON Exception", e.toString());
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("VOLLEY ERROR",error.toString());
+            }
+
+        });
+
+        MovieDBConnection.getInstance(getApplicationContext()).addToRequestQueue(jsObjRequest);
+    }
+
+
+
 
  /*   public static class MovieDetailFragment extends Fragment {
 
