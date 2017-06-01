@@ -7,6 +7,7 @@
     <string name="top_rated_url">https://api.themoviedb.org/3/movie/top_rated?api_key=</string>
     <string name="moviedb_url">https://api.themoviedb.org/3/movie/</string>
     <string name="reviews_url">/reviews\?api_key=</string>
+    <string name="trailer_url">/videos\?api_key=</string>
     <string name="get_image">https://image.tmdb.org/t/p/w780</string>
     <string name="api_url">\?api_key=</string>
     <string name="filter_type">Most Popular</string>

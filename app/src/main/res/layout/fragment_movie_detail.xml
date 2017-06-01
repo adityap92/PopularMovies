@@ -95,6 +95,19 @@
         android:paddingBottom="@dimen/activity_vertical_margin"
         />
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trailers:"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvTrailers"
+        android:paddingLeft="@dimen/activity_horizontal_margin">
+    </ListView>
+    <TextView
         android:text="Reviews:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -134,7 +134,7 @@ public class MovieGridAdapter extends BaseAdapter {
                                         currMovie.getString("poster_path"),
                                         currMovie.getString("title"),
                                         currMovie.getString("vote_average")));
-
+                            Log.v("MOVIE ID: ", currMovie.getString("id") + " :" + currMovie.getString("title"));
                         }
 
                         } catch (JSONException e) {

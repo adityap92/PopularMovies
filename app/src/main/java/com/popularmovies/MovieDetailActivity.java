@@ -2,6 +2,7 @@ package com.popularmovies;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,8 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +40,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     private Context thisContext;
     private int pos;
     private ArrayList<Trailer> trailers;
+    private ArrayList<String> trailerNames;
+    private ArrayAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +58,26 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         //pull reviews and trailers
         trailers = new ArrayList<Trailer>();
+        trailerNames = new ArrayList<String>();
         getReviews();
+
+
+
+        //create listview for trailers
+        ListView trailerVideos = (ListView) findViewById(R.id.lvTrailers);
+        adapter = new ArrayAdapter<String>(this, R.layout.trailer_list_view, R.id.tvTrailer, trailerNames);
+        trailerVideos.setAdapter(adapter);
+
+        getTrailers();
+
+
+        trailerVideos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.youtube.com/watch?v="+trailers.get(pos).getTrailerKey())));
+            }
+        });
+
 
 
         //create UI objects
@@ -139,11 +164,26 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private void getTrailers(){
 
-        String url ="";
+        String url = thisContext.getString(R.string.moviedb_url)
+                + MovieGridAdapter.movies.get(pos).getMovieID()
+                + thisContext.getString(R.string.trailer_url)
+                + thisContext.getString(R.string.MOVIE_DB_API_KEY);
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                try{
+                    JSONArray arr = response.getJSONArray("results");
+                    for(int i=0; i < arr.length(); i++){
+                        JSONObject obj = arr.getJSONObject(i);
+                        trailers.add(new Trailer(obj.getString("name"), obj.getString("key")));
+                        trailerNames.add(obj.getString("name"));
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+                catch(JSONException e){
+                    Log.e("JSON Exception", e.toString());
+                }
 
 
 
