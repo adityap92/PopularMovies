@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -40,7 +41,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private Context thisContext;
     private int pos;
     private ArrayList<Trailer> trailers;
-    private ArrayList<String> trailerNames;
+
     private ArrayAdapter adapter;
 
     @Override
@@ -58,16 +59,37 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         //pull reviews and trailers
         trailers = new ArrayList<Trailer>();
-        trailerNames = new ArrayList<String>();
+
         getReviews();
 
 
 
         //create listview for trailers
         ListView trailerVideos = (ListView) findViewById(R.id.lvTrailers);
-        adapter = new ArrayAdapter<String>(this, R.layout.trailer_list_view, R.id.tvTrailer, trailerNames);
+        adapter = new ArrayAdapter<String>(this, R.layout.trailer_list_view, R.id.tvTrailer, new ArrayList<String>());
         trailerVideos.setAdapter(adapter);
 
+        trailerVideos.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+
+                // Handle ListView touch events.
+                v.onTouchEvent(event);
+                return true;
+            }
+        });
         getTrailers();
 
 
@@ -100,7 +122,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //inserting favorite movie
+               //inserting favorite movie
                 ContentValues cv = new ContentValues();
 
                 cv.put(FavoritesContract.FavoritesEntry.COLUMN_MOVIE_ID, movieId);
@@ -177,7 +199,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     for(int i=0; i < arr.length(); i++){
                         JSONObject obj = arr.getJSONObject(i);
                         trailers.add(new Trailer(obj.getString("name"), obj.getString("key")));
-                        trailerNames.add(obj.getString("name"));
+                        adapter.add(obj.getString("name"));
                     }
                     adapter.notifyDataSetChanged();
                 }
