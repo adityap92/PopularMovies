@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 /**
  * Created by Aditya on 5/24/2017.
@@ -19,7 +20,7 @@ public class FavoritesContentProvider extends ContentProvider{
 
     //data accessor IDs
     public static final int FAVORITES = 100;
-    public static final int FAVORITES_WITH_ID = 101;
+    public static final int FAVORITES_ID = 101;
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
 
@@ -87,7 +88,34 @@ public class FavoritesContentProvider extends ContentProvider{
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        int uriType = sUriMatcher.match(uri);
+        SQLiteDatabase sqlDB = database.getWritableDatabase();
+        int rowsDeleted = 0;
+        switch (uriType) {
+            case FAVORITES:
+                rowsDeleted = sqlDB.delete(FavoritesContract.FavoritesEntry.TABLE_NAME, selection,
+                        selectionArgs);
+                break;
+            case FAVORITES_ID:
+                String id = uri.getLastPathSegment();
+                if (TextUtils.isEmpty(selection)) {
+                    rowsDeleted = sqlDB.delete(
+                            FavoritesContract.FavoritesEntry.TABLE_NAME,
+                            FavoritesContract.FavoritesEntry._ID + "=" + id,
+                            null);
+                } else {
+                    rowsDeleted = sqlDB.delete(
+                            FavoritesContract.FavoritesEntry.TABLE_NAME,
+                            FavoritesContract.FavoritesEntry._ID + "=" + id
+                                    + " and " + selection,
+                            selectionArgs);
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown URI: " + uri);
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return rowsDeleted;
     }
 
     @Override
