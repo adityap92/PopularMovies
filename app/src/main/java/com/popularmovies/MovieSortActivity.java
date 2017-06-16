@@ -33,7 +33,6 @@ public class MovieSortActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-
                 //open MovieDetail Screen
                 Intent newIntent = new Intent(mainContext, MovieDetailActivity.class);
                 newIntent.putExtra("position", position);
@@ -49,13 +48,16 @@ public class MovieSortActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if(id==R.id.filter_popular){
-            gridAdapter.setFilter(mainContext.getResources().getString(R.string.most_popular_url));
-            return true;
-        }else
-        if(id==R.id.filter_rated){
-            gridAdapter.setFilter(mainContext.getResources().getString(R.string.top_rated_url));
-            return true;
+        switch(id){
+            case R.id.filter_popular:
+                gridAdapter.setFilter(mainContext.getResources().getString(R.string.most_popular_url));
+                return true;
+            case R.id.filter_rated:
+                gridAdapter.setFilter(mainContext.getResources().getString(R.string.top_rated_url));
+                return true;
+            case R.id.favorite_menu:
+                startActivity(new Intent(mainContext, MovieFavoritesActivity.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

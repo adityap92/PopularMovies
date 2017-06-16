@@ -3,22 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/filter_menu"
-        android:title="filter by:"
-        android:showAsAction="always">
-
+        android:title="Filter By:"
+        app:showAsAction="always">
         <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-
             <item
                 android:id="@+id/filter_popular"
-                android:title="MOST POPULAR"
-                />
-
+                android:title="MOST POPULAR" />
             <item
                 android:id="@+id/filter_rated"
-                android:title="TOP RATED"
-                />
+                android:title="TOP RATED" />
             </menu>
     </item>
+
+    <item
+        android:id="@+id/favorite_menu"
+        android:title="Favorites"
+        app:showAsAction="always"/>
 
 </menu>

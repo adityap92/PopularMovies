@@ -15,9 +15,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MovieDetailActivity">
+        <activity android:name=".MovieDetailActivity"/>
 
-        </activity>
+        <activity android:name="MovieFavoritesActivity"/>
         
         <provider
             android:authorities="com.popularmovies"

@@ -41,7 +41,6 @@ public class MovieDetailActivity extends AppCompatActivity {
     private Context thisContext;
     private int pos;
     private ArrayList<Trailer> trailers;
-
     private ArrayAdapter adapter;
 
     @Override
