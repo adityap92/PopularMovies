@@ -1,6 +1,8 @@
 # Popular Movies
 
-PopularMovies app is an easy to view selection of popular movies today as well as top rated of all time. Pulling from themoviedb.org api the application displays movies by poster picture and allows you to view basic details about the movie. 
+PopularMovies app is an easy to view selection of popular movies today as well as top rated of all time. Pulling from themoviedb.org api the application displays movies by poster picture and allows you to view basic details about the movie.
+
+Preview Trailers and read a Review about the movie on the MovieDetail screen. From here you are able to mark and unmark movies as Favorites which can be viewed from the Favorites screen.
 
 ## Getting Started
 
