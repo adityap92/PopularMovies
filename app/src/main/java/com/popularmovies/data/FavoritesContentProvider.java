@@ -10,7 +10,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 
 /**
  * Created by Aditya on 5/24/2017.
@@ -116,23 +115,9 @@ public class FavoritesContentProvider extends ContentProvider{
         int rowsDeleted = 0;
         switch (uriType) {
             case FAVORITES:
-                rowsDeleted = sqlDB.delete(FavoritesContract.FavoritesEntry.TABLE_NAME, selection,
-                        selectionArgs);
-                break;
-            case FAVORITES_ID:
-                String id = uri.getLastPathSegment();
-                if (TextUtils.isEmpty(selection)) {
-                    rowsDeleted = sqlDB.delete(
-                            FavoritesContract.FavoritesEntry.TABLE_NAME,
-                            FavoritesContract.FavoritesEntry._ID + "=" + id,
-                            null);
-                } else {
-                    rowsDeleted = sqlDB.delete(
-                            FavoritesContract.FavoritesEntry.TABLE_NAME,
-                            FavoritesContract.FavoritesEntry._ID + "=" + id
-                                    + " and " + selection,
-                            selectionArgs);
-                }
+                rowsDeleted = sqlDB.delete(FavoritesContract.FavoritesEntry.TABLE_NAME,
+                        FavoritesContract.FavoritesEntry.COLUMN_MOVIE_NAME + "= \'" + selection+'\'',
+                        null);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
