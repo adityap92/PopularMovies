@@ -6,6 +6,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvFave"/>
+        android:id="@+id/tvFave"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"/>
 
 </LinearLayout>

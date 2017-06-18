@@ -12,5 +12,8 @@
     <string name="api_url">\?api_key=</string>
     <string name="filter_type">Most Popular</string>
     <string name="rating">/10</string>
+    <string name="delete_fave">Do you want to remove this movie from Favorites?</string>
+    <string name="fave_add_toast">Movie added to Favorites</string>
+    <string name="fave_del_toast">Movie removed from Favorites</string>
 
 </resources>

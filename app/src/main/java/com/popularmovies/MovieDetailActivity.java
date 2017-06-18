@@ -116,27 +116,39 @@ public class MovieDetailActivity extends AppCompatActivity {
         synopsis.setText((MovieGridAdapter.movies.get(pos).getOverview()));
         rating.setText(MovieGridAdapter.movies.get(pos).getRating());
 
+        if(MovieGridAdapter.movies.get(pos).isFave()){
+            favorite.setText("Remove from Favorites");
+        }
+
         // Add or Remove favorites
         favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-               //inserting favorite movie
-                ContentValues cv = new ContentValues();
+                if(MovieGridAdapter.movies.get(pos).isFave()){
+                    getContentResolver().delete(FavoritesContract.FavoritesEntry.CONTENT_URI,
+                            movieName,
+                            null);
+                    MovieGridAdapter.movies.get(pos).setFave(false);
+                    Toast.makeText(getBaseContext(), R.string.fave_del_toast, Toast.LENGTH_SHORT).show();
+                }else{
+                    //inserting favorite movie
+                    ContentValues cv = new ContentValues();
 
-                cv.put(FavoritesContract.FavoritesEntry.COLUMN_MOVIE_ID, movieId);
-                cv.put(FavoritesContract.FavoritesEntry.COLUMN_MOVIE_NAME, movieName);
+                    cv.put(FavoritesContract.FavoritesEntry.COLUMN_MOVIE_ID, movieId);
+                    cv.put(FavoritesContract.FavoritesEntry.COLUMN_MOVIE_NAME, movieName);
 
-                Uri uri = getContentResolver().insert(FavoritesContract.FavoritesEntry.CONTENT_URI, cv);
+                    Uri uri = getContentResolver().insert(FavoritesContract.FavoritesEntry.CONTENT_URI, cv);
 
-                if(uri != null)
-                    Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
+                    if(uri != null)
+                        Toast.makeText(getBaseContext(), R.string.fave_add_toast, Toast.LENGTH_SHORT).show();
+
+                    MovieGridAdapter.movies.get(pos).setFave(true);
+                }
 
                 finish();
-
             }
         });
-
     }
 
     @Override
@@ -146,7 +158,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                onBackPressed();
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

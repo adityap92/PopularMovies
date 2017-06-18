@@ -40,9 +40,7 @@ public class MovieSortActivity extends AppCompatActivity {
                 startActivity(newIntent);
             }
         });
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

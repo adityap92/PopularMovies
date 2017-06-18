@@ -8,6 +8,8 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -43,7 +45,7 @@ public class MovieFavoritesActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-
+        adapter.notifyDataSetChanged();
         getSupportLoaderManager().restartLoader(FAV_LOADER_ID,null,this);
     }
 
@@ -96,7 +98,7 @@ public class MovieFavoritesActivity extends AppCompatActivity implements
             do{
                 adapter.add(data.getString(data.getColumnIndex(FavoritesContract.FavoritesEntry.COLUMN_MOVIE_NAME)));
             }while(data.moveToNext());
-            data.close();
+
             adapter.notifyDataSetChanged();
         }
     }

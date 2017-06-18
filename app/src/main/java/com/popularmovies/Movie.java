@@ -14,6 +14,7 @@ public class Movie {
     private String releaseDate;
     private ImageView image;
     private String rating;
+    private boolean isFave;
 
     /**
      * Movie Constructor
@@ -32,6 +33,7 @@ public class Movie {
         this.releaseDate = releaseDate;
         this.image = null;
         this.rating = rating;
+        this.isFave = false;
     }
 
     public String getMovieID(){
@@ -64,5 +66,13 @@ public class Movie {
 
     public String getRating(){
         return this.rating;
+    }
+
+    public boolean isFave(){
+        return this.isFave;
+    }
+
+    public void setFave(boolean fave){
+        this.isFave = fave;
     }
 }
