@@ -25,6 +25,7 @@ public class MovieSortActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_sort);
         mainContext=getApplicationContext();
 
+        //initialize UI objects
         GridView gridview = (GridView) findViewById(R.id.movieGrid);
         gridAdapter = new MovieGridAdapter(this);
         gridview.setAdapter(gridAdapter);

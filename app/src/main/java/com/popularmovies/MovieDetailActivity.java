@@ -61,8 +61,6 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         getReviews();
 
-
-
         //create listview for trailers
         ListView trailerVideos = (ListView) findViewById(R.id.lvTrailers);
         adapter = new ArrayAdapter<String>(this, R.layout.trailer_list_view, R.id.tvTrailer, new ArrayList<String>());
@@ -95,11 +93,10 @@ public class MovieDetailActivity extends AppCompatActivity {
         trailerVideos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.youtube.com/watch?v="+trailers.get(position).getTrailerKey())));
+                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(R.string.youtube_link +
+                        trailers.get(position).getTrailerKey())));
             }
         });
-
-
 
         //create UI objects
         ImageView image = (ImageView) findViewById(R.id.detailPoster);
@@ -117,7 +114,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         rating.setText(MovieGridAdapter.movies.get(pos).getRating());
 
         if(MovieGridAdapter.movies.get(pos).isFave()){
-            favorite.setText("Remove from Favorites");
+            favorite.setText(R.string.remove_fave);
         }
 
         // Add or Remove favorites
@@ -217,8 +214,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                     Log.e("JSON Exception", e.toString());
                 }
 
-
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -238,10 +233,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         public Trailer(String title, String key){
             this.title = title;
             this.key = key;
-        }
-
-        public String getTrailerTitle(){
-            return title;
         }
 
         public String getTrailerKey(){

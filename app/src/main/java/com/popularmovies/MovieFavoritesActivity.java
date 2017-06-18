@@ -8,8 +8,6 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -35,6 +33,7 @@ public class MovieFavoritesActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_favorites);
 
+        //Create UI objects and adapter for movie favorites
         ListView faves = (ListView) findViewById(R.id.lvFavorites);
         adapter = new ArrayAdapter<String>(this, R.layout.favorites_list_view, R.id.tvFave, new ArrayList<String>());
         faves.setAdapter(adapter);
@@ -67,7 +66,7 @@ public class MovieFavoritesActivity extends AppCompatActivity implements
 
             @Override
             public Cursor loadInBackground() {
-
+                //query DB here
                 try{
                     return getContentResolver().query(FavoritesContract.FavoritesEntry.CONTENT_URI,
                             null,
