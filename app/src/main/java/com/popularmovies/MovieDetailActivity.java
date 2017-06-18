@@ -93,7 +93,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         trailerVideos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(R.string.youtube_link +
+                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(getString(R.string.youtube_link) +
                         trailers.get(position).getTrailerKey())));
             }
         });
